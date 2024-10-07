@@ -1,187 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>CWPHD - Projects</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-        <!-- Custom Google font-->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
-        <style>
-            body {
-                display: flex;
-                flex-direction: column;
-                height: 100vh;
-            }
-            main {
-                flex: 1;
-                display: flex;
-                padding-top: 60px;
-            }
-            /* Sticky header */
-            .navbar {
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>CWPHD - Projects</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Custom Google font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            padding-top: 60px;
+        }
+        /* Sticky header */
+        .navbar {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        #sidebar {
+            width: 250px;
+            background-color: #343a40;
+            color: white;
+            height: calc(100vh - 60px);
+            position: fixed;
+            top: 60px;
+            transition: transform 0.3s ease;
+            transform: translateX(-100%); /* Start hidden */
+        }
+        #sidebar.open {
+            transform: translateX(0); /* Show sidebar */
+        }
+        #content {
+            margin-left: 250px;
+            padding: 30px;
+            flex-grow: 1;
+            transition: margin-left 0.3s ease; /* Smooth transition */
+        }
+        #content.shift {
+            margin-left: 0; /* Shift content when sidebar is open */
+        }
+        .sidebar-link {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 15px;
+        }
+        .sidebar-link:hover {
+            background-color: #495057;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+        }
+        #viewer {
+            min-height: 1200px;
+            padding-bottom: 30px; /* Add padding to avoid footer overlap */
+            padding-top: 60px; /* Ensure there's space for the button */
+        }
+        /* Footer adjustment */
+        footer {
+            flex-shrink: 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        /* Mobile toggle button styles */
+        .toggle-btn {
+            position: fixed;
+            top: 80px; /* Move the button down to avoid overlapping the sidebar text */
+            left: 15px;
+            z-index: 1050;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        /* Ensure navbar and button don't overlap */
+        nav, .toggle-btn {
+            z-index: 1001; /* Keep them above other elements */
+        }
+        /* Responsive sidebar behavior */
+        @media (max-width: 768px) {
+            #sidebar {
+                display: block;
                 position: fixed;
                 width: 100%;
-                top: 0;
-                z-index: 1000;
-            }
-            #sidebar {
-                width: 250px;
-                background-color: #343a40;
-                color: white;
                 height: calc(100vh - 60px);
-                position: fixed;
                 top: 60px;
+                z-index: 999;
+                padding-top: 60px; /* Add padding to avoid overlap with the button */
             }
             #content {
-                margin-left: 250px;
-                padding: 30px;
-                flex-grow: 1;
+                margin-left: 0;
             }
-            .sidebar-link {
-                color: white;
-                text-decoration: none;
-                display: block;
-                padding: 15px;
+            .toggle-btn {
+                display: block; /* Show toggle button on mobile */
             }
-            .sidebar-link:hover {
-                background-color: #495057;
+        }
+        /* Hide toggle button on larger screens */
+        @media (min-width: 769px) {
+            .toggle-btn {
+                display: none; /* Hide toggle button on larger screens */
             }
-            iframe {
-                width: 100%;
-                height: 600px;
-                border: none;
-            }
-            #viewer {
-                min-height: 1200px;
-                padding-bottom: 30px; /* Add padding to avoid footer overlap */
-            }
-            /* Footer adjustment */
-            footer {
-                flex-shrink: 0;
-                position: relative;
-                bottom: 0;
-                width: 100%;
-            }
-        </style>
-    </head>
-    <body class="d-flex flex-column h-100 bg-light">
-        <!-- Navigation -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
-            <div class="container px-5">
-                <a class="navbar-brand" href="index.html"><span class="fw-bolder text-primary">Corey Waldner</span></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="resume.html">Resume</a></li>
-                        <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                    </ul>
+        }
+    </style>
+</head>
+<body class="d-flex flex-column h-100 bg-light">
+    <!-- Toggle Button -->
+    <button class="toggle-btn" onclick="toggleSidebar()">Subjects</button>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+        <div class="container px-5">
+            <a class="navbar-brand" href="index.html"><span class="fw-bolder text-primary">Corey Waldner</span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resume.html">Resume</a></li>
+                    <li class="nav-item"><a class="nav-link" href="projects.html">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar and Main Content -->
+    <main>
+        <!-- Sidebar -->
+        <div id="sidebar" class="open">
+            <h3 class="p-3">Subjects</h3>
+            <a href="#" class="sidebar-link" onclick="showContent('project')">Exploratory Data Analysis</a>
+            <a href="#" class="sidebar-link" onclick="showContent('project-1')">Network Integration</a>
+            <a href="#" class="sidebar-link" onclick="showContent('project-2')">Neural Networks</a>
+            <a href="#" class="sidebar-link" onclick="showContent('project-3')">NN vs Random Forest</a>
+            <a href="#" class="sidebar-link" onclick="showContent('project-4')">Database Design</a>
+            <a href="#" class="sidebar-link" onclick="showContent('project-5')">Data Visualization</a>
+        </div>
+
+        <!-- Main Content Area -->
+        <div id="content">
+            <div id="viewer">
+                <h2>Welcome to My Project Portfolio</h2>
+                <p>Select a project from the sidebar to view the associated paper and supporting documents.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white py-4 mt-auto">
+        <div class="container px-5">
+            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
+                <div class="col-auto"><div class="small m-0">Copyright &copy; CWPHD 2024</div></div>
+                <div class="col-auto">
+                    <a class="small" href="#!">Privacy</a>
+                    <span class="mx-1">&middot;</span>
+                    <a class="small" href="#!">Terms</a>
+                    <span class="mx-1">&middot;</span>
+                    <a class="small" href="#!">Contact</a>
                 </div>
             </div>
-        </nav>
+        </div>
+    </footer>
 
-        <!-- Sidebar and Main Content -->
-        <main>
-            <!-- Sidebar -->
-            <div id="sidebar">
-                <h3 class="p-3">Subjects</h3>
-                <a href="#" class="sidebar-link" onclick="showContent('project')">Exploratory Data Analysis</a>
-                <a href="#" class="sidebar-link" onclick="showContent('project-1')">Network Integration</a>
-                <a href="#" class="sidebar-link" onclick="showContent('project-2')">Neural Networks</a>
-                <a href="#" class="sidebar-link" onclick="showContent('project-3')">NN vs Random Forest</a>
-                <a href="#" class="sidebar-link" onclick="showContent('project-4')">Database Design</a>
-                <a href="#" class="sidebar-link" onclick="showContent('project-5')">Data Visualization</a>
-            </div>
-
-            <!-- Main Content Area -->
-            <div id="content">
-                <div id="viewer">
-                    <h2>Welcome to My Project Portfolio</h2>
-                    <p>Select a project from the sidebar to view the associated paper and supporting documents.</p>
-                </div>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="bg-white py-4 mt-auto">
-            <div class="container px-5">
-                <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                    <div class="col-auto"><div class="small m-0">Copyright &copy; CWPHD 2024</div></div>
-                    <div class="col-auto">
-                        <a class="small" href="#!">Privacy</a>
-                        <span class="mx-1">&middot;</span>
-                        <a class="small" href="#!">Terms</a>
-                        <span class="mx-1">&middot;</span>
-                        <a class="small" href="#!">Contact</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="js/scripts.js"></script>
-        <script>
-            function showContent(projectId) {
-                const viewer = document.getElementById('viewer');
-                switch(projectId) {
-                    case 'project':
-                        viewer.innerHTML = `
-                            <h2>Exploratory Data Analysis - CPS Food Security – A Case Problem</h2>
-                            <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Files/EDA.pdf"></iframe>
-                            <hr/>
-                            <iframe src="https://nbviewer.org/github/CWPHD/Phd_Projects/blob/main/Files/CaseProblemCode.ipynb"></iframe>
-                        `;
-                        break;
-                    case 'project-1':
-                        viewer.innerHTML = `
-                            <h2>Network Integration</h2>
-                            <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Files/Network_Integration_Project.pdf"></iframe>
-                        `;
-                        break;
-                    case 'project-2':
-                        viewer.innerHTML = `
-                            <h2>Neural Networks</h2>
-                            <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Files/NN.pdf"></iframe>
-                            <hr/>
-                            <iframe src="https://nbviewer.org/github/CWPHD/Phd_Projects/blob/main/Files/NN.ipynb"></iframe>
-                        `;
-                        break;
-                    case 'project-3':
-                        viewer.innerHTML = `
-                            <h2>NN vs Random Forest</h2>
-                            <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Files/nn_vs_rf.pdf"></iframe>
-                            <hr/>
-                            <iframe src="https://nbviewer.org/github/CWPHD/Phd_Projects/blob/main/Files/nn_vs_rf.ipynb"></iframe>
-                        `;
-                        break;
-                    case 'project-4':
-                        viewer.innerHTML = `
-                            <h2>Database Design</h2>
-                            <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Files/DDv1.pdf"></iframe>
-                            <hr/>
-                            <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Files/DDv2.pdf"></iframe>
-                        `;
-                        break;
-                    case 'project-5':
-                        viewer.innerHTML = `
-                            <h2>Data Visualization</h2>
-                            <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Files/viz.pdf"></iframe>
-                        `;
-                        break;
-                }
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+        function showContent(projectId) {
+            const viewer = document.getElementById('viewer');
+            switch(projectId) {
+                case 'project':
+                    viewer.innerHTML = `
+                        <h2>Exploratory Data Analysis - CPS Food Security – A Case Problem</h2>
+                        <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/EDA.pdf"></iframe>
+                        <hr/>
+                        <iframe src="https://nbviewer.org/github/CWPHD/Phd_Projects/blob/main/CaseProblemCode.ipynb"></iframe>
+                    `;
+                    break;
+                case 'project-1':
+                    viewer.innerHTML = `
+                        <h2>Network Integration</h2>
+                        <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Network_Integration_Project.pdf"></iframe>
+                    `;
+                    break;
+                case 'project-2':
+                    viewer.innerHTML = `
+                        <h2>Neural Networks</h2>
+                        <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Neural_Networks.pdf"></iframe>
+                        <hr/>
+                        <iframe src="https://nbviewer.org/github/CWPHD/Phd_Projects/blob/main/Neural_Networks.ipynb"></iframe>
+                    `;
+                    break;
+                case 'project-3':
+                    viewer.innerHTML = `
+                        <h2>NN vs Random Forest</h2>
+                        <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/nn_vs_rf.pdf"></iframe>
+                        <hr/>
+                        <iframe src="https://nbviewer.org/github/CWPHD/Phd_Projects/blob/main/nn_vs_rf.ipynb"></iframe>
+                    `;
+                    break;
+                case 'project-4':
+                    viewer.innerHTML = `
+                        <h2>Database Design</h2>
+                        <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Database_Project.pdf"></iframe>
+                    `;
+                    break;
+                case 'project-5':
+                    viewer.innerHTML = `
+                        <h2>Data Visualization</h2>
+                        <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Data_Visualization.pdf"></iframe>
+                    `;
+                    break;
+                default:
+                    viewer.innerHTML = '<h2>Welcome to My Project Portfolio</h2><p>Select a project from the sidebar to view the associated paper and supporting documents.</p>';
             }
-        </script>
-    </body>
+            if (window.innerWidth < 769) {
+                toggleSidebar(); // Automatically retract sidebar after selection on mobile
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+            document.getElementById('content').classList.toggle('shift'); // Shift content
+        }
+    </script>
+</body>
 </html>
