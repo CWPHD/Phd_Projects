@@ -43,6 +43,7 @@
             top: 60px;
             transition: transform 0.3s ease;
             transform: translateX(-100%); /* Start hidden */
+            z-index: 999; /* Lower than navbar */
         }
         #sidebar.open {
             transform: translateX(0); /* Show sidebar */
@@ -109,6 +110,7 @@
                 height: calc(100vh - 60px);
                 top: 60px;
                 z-index: 999;
+                transform: translateX(-100%); /* Ensure sidebar starts hidden in mobile */
                 padding-top: 60px; /* Add padding to avoid overlap with the button */
             }
             #content {
@@ -123,12 +125,28 @@
             .toggle-btn {
                 display: none; /* Hide toggle button on larger screens */
             }
+            #sidebar {
+                transform: translateX(0); /* Show sidebar on larger screens */
+            }
+        }
+        /* Styles for when menu links are active */
+        .navbar .active {
+            position: absolute;
+            top: 60px; /* Aligns with the navbar */
+            left: 0;
+            width: 100%;
+            z-index: 1001;
+            background-color: white; /* White background for the active menu */
+        }
+        /* Align text to the right in mobile dropdown */
+        .navbar-collapse {
+            text-align: right; /* Align dropdown text to the right */
         }
     </style>
 </head>
 <body class="d-flex flex-column h-100 bg-light">
     <!-- Toggle Button -->
-    <button class="toggle-btn" onclick="toggleSidebar()">Subjects</button>
+    <button class="toggle-btn" onclick="toggleSidebar()">Portfolio Topics <i class="bi bi-list"></i></button>
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
@@ -149,7 +167,7 @@
     <!-- Sidebar and Main Content -->
     <main>
         <!-- Sidebar -->
-        <div id="sidebar" class="open">
+        <div id="sidebar">
             <h3 class="p-3">Subjects</h3>
             <a href="#" class="sidebar-link" onclick="showContent('project')">Exploratory Data Analysis</a>
             <a href="#" class="sidebar-link" onclick="showContent('project-1')">Network Integration</a>
@@ -162,8 +180,8 @@
         <!-- Main Content Area -->
         <div id="content">
             <div id="viewer">
-                <h2>Welcome to My Project Portfolio</h2>
-                <p>Select a project from the sidebar to view the associated paper and supporting documents.</p>
+                <h2>Welcome to Corey's Ph.d Project Portfolio</h2>
+                <p>Select a project from the sidebar or dropdown to view the paper and supporting documents.</p>
             </div>
         </div>
     </main>
@@ -196,13 +214,13 @@
                         <h2>Exploratory Data Analysis - CPS Food Security – A Case Problem</h2>
                         <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/EDA.pdf"></iframe>
                         <hr/>
-                        <iframe src="https://nbviewer.org/github/CWPHD/Phd_Projects/blob/main/CaseProblemCode.ipynb"></iframe>
+                        <iframe src="https://nbviewer.org/github/CWPHD/Phd_Projects/blob/main/EDA.ipynb"></iframe>
                     `;
                     break;
                 case 'project-1':
                     viewer.innerHTML = `
                         <h2>Network Integration</h2>
-                        <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Network_Integration_Project.pdf"></iframe>
+                        <iframe src="https://cdn.jsdelivr.net/gh/cwphd/Phd_Projects@main/Network_Integration.pdf"></iframe>
                     `;
                     break;
                 case 'project-2':
@@ -246,6 +264,13 @@
             sidebar.classList.toggle('open');
             document.getElementById('content').classList.toggle('shift'); // Shift content
         }
+
+        // Ensure sidebar starts closed on mobile
+        window.onload = function() {
+            if (window.innerWidth < 769) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        };
     </script>
 </body>
 </html>
